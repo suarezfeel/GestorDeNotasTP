@@ -1,6 +1,7 @@
 /*
 * Archivo: GestorDeNotas.cpp
 * Autor: Juan Esteban Suarez Cardenas
+* Autor 2: Jordan Alejandro Martinez Soto 
 * Fecha: 10/11/2026
 * Curso: Técnicas de Programación
 * Descripción: Gestor de notas para almacenar y manipular calificaciones.

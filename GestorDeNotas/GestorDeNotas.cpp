@@ -40,6 +40,7 @@ void cargarNotas(vector<vector<float>>& notas, vector<string>& nombres, const st
 void calcularPromedio(const vector<float>& fila, vector<float>& promedios) {
     if (fila.empty()) {
         cout << "No hay notas para calcular el promedio." << endl;
+        promedios.push_back(0.0f); // Agregar un promedio de 0 si no hay notas
         return;
     }
     float suma = 0.0f;
@@ -47,4 +48,59 @@ void calcularPromedio(const vector<float>& fila, vector<float>& promedios) {
         suma += n;
     }
     promedios.push_back(suma / fila.size());
+}
+void mezclar(vector<vector<float>>& notas, vector<string>& nombres, vector<float>& promedios, int ini, int mitad, int fin) {
+    vector<vector<float>> auxNotas;
+    vector<string> auxNombres;
+    vector<float> auxPromedios;
+
+    int i = ini;
+    int j = mitad + 1;
+
+    while (i <= mitad && j <= fin) {
+        // Ordenar de mayor a menor promedio; si son iguales, mantiene el orden original
+        if (promedios[i] >= promedios[j]) {
+            auxNotas.push_back(notas[i]);
+            auxNombres.push_back(nombres[i]);
+            auxPromedios.push_back(promedios[i]);
+            i++;
+        } else {
+            auxNotas.push_back(notas[j]);
+            auxNombres.push_back(nombres[j]);
+            auxPromedios.push_back(promedios[j]);
+            j++;
+        }
+    }
+
+    // Copiar sobrantes de la mitad izquierda
+    while (i <= mitad) {
+        auxNotas.push_back(notas[i]);
+        auxNombres.push_back(nombres[i]);
+        auxPromedios.push_back(promedios[i]);
+        i++;
+    }
+
+    // Copiar sobrantes de la mitad derecha
+    while (j <= fin) {
+        auxNotas.push_back(notas[j]);
+        auxNombres.push_back(nombres[j]);
+        auxPromedios.push_back(promedios[j]);
+        j++;
+    }
+
+    // Devolver los tres resultados sincronizados a los vectores originales
+    for (size_t k = 0; k < auxNotas.size(); k++) {
+        notas[ini + k] = auxNotas[k];
+        nombres[ini + k] = auxNombres[k];
+        promedios[ini + k] = auxPromedios[k];
+    }
+}
+
+void mergeSort(vector<vector<float>>& notas, vector<string>& nombres, vector<float>& promedios, int ini, int fin) {
+    if (ini >= fin) return; // Caso base: 0 o 1 estudiante ya está ordenado
+
+    int mitad = (ini + fin) / 2;
+    mergeSort(notas, nombres, promedios, ini, mitad);
+    mergeSort(notas, nombres, promedios, mitad + 1, fin);
+    mezclar(notas, nombres, promedios, ini, mitad, fin);
 }

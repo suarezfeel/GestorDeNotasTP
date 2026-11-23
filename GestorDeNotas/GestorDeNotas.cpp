@@ -2,6 +2,7 @@
 * Archivo: GestorDeNotas.cpp
 * Autor: Juan Esteban Suarez Cardenas
 * Autor 2: Jordan Alejandro Martinez Soto 
+* Autor 3: Julian Andres Tunjano Bermudez 
 * Fecha: 10/11/2026
 * Curso: Técnicas de Programación
 * Descripción: Gestor de notas para almacenar y manipular calificaciones.
@@ -12,6 +13,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <algorithm> 
+
 using namespace std;
 void cargarNotas(vector<vector<float>>& notas, vector<string>& nombres, const string& nombreArchivo) {
     ifstream archivo(nombreArchivo);
@@ -105,3 +108,26 @@ void mergeSort(vector<vector<float>>& notas, vector<string>& nombres, vector<flo
     mergeSort(notas, nombres, promedios, mitad + 1, fin);
     mezclar(notas, nombres, promedios, ini, mitad, fin);
 }
+
+float mayor(const vector<float>& v, int inicio, int final) {
+    if (inicio==final) return v[inicio];
+    int mitad=(inicio + final )/ 2;
+    float izq= mayor(v,inicio,mitad); 
+    float dere=mayor (v, mitad + 1,final );
+    return max(izq,dere); 
+
+}
+float menor(const vector<float>& v, int inicio, int final) {
+    if (inicio==final) return v[inicio];
+    int mitad=(inicio + final )/ 2;
+    float izq= mayor(v,inicio,mitad); 
+    float dere=mayor (v, mitad + 1,final );
+    return min(izq,dere); 
+}
+
+float sumatotal(const vector<float>& v, int inicio, int final) {
+    if (inicio== final) return v[inicio];
+    int mitad = (inicio +final) / 2; 
+    return sumatotal(v,inicio,mitad)+ sumatotal(v,mitad + 1,final);
+}
+//que sueno colega, suficiente por hoy, voy a dejar que neko se me acueste en el teclado, Suarez ven te invito a subir mira en el free fire. 

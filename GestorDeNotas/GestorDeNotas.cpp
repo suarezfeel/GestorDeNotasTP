@@ -120,8 +120,8 @@ float mayor(const vector<float>& v, int inicio, int final) {
 float menor(const vector<float>& v, int inicio, int final) {
     if (inicio==final) return v[inicio];
     int mitad=(inicio + final )/ 2;
-    float izq= mayor(v,inicio,mitad); 
-    float dere=mayor (v, mitad + 1,final );
+    float izq= menor(v,inicio,mitad); 
+    float dere=menor (v, mitad + 1,final );
     return min(izq,dere); 
 }
 

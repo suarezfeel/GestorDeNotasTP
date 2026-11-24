@@ -131,4 +131,15 @@ float sumatotal(const vector<float>& v, int inicio, int final) {
     return sumatotal(v,inicio,mitad)+ sumatotal(v,mitad + 1,final);
 }
 //que sueno colega, suficiente por hoy, voy a dejar que neko se me acueste en el teclado, Suarez ven te invito a subir mira en el free fire. 
+int buscarEstudiante(const vector<string>& nombres, const string& buscado, int indice = 0) {
+
+    if(indice>= (int)nombre.size){
+        return -1;
+    }
+    if (nombres[indice] == buscado){
+        return indice;
+    }
+    return buscarEstudiante(nombre, buscado, indice +1);
+
+}
 

@@ -14,8 +14,8 @@
 #include <sstream>
 #include <string>
 #include <algorithm> 
-
 using namespace std;
+
 void cargarNotas(vector<vector<float>>& notas, vector<string>& nombres, const string& nombreArchivo) {
     ifstream archivo(nombreArchivo);
     if (!archivo.is_open()) {
@@ -130,5 +130,20 @@ float sumatotal(const vector<float>& v, int inicio, int final) {
     int mitad = (inicio +final) / 2; 
     return sumatotal(v,inicio,mitad)+ sumatotal(v,mitad + 1,final);
 }
-//que sueno colega, suficiente por hoy, voy a dejar que neko se me acueste en el teclado, Suarez ven te invito a subir mira en el free fire. 
+void ordenar(const vector<string>& v, string nombre) {
+sort(nombre.begin(), nombre.end() ); 
+}
 
+void busqueda(); 
+ 
+int main () { 
+
+
+
+
+
+
+
+
+
+}

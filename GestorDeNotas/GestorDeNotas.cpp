@@ -143,16 +143,48 @@ int buscarEstudiante(const vector<string>& nombres, const string& buscado, int i
 
 }
 
-void busqueda(); 
- 
-int main () { 
+ int main () { 
 
+   vector<vector<float>> notas;
+   vector<string> nombres;
+    vector<float> promedios;
 
+cargarNotas(notas,nombres, "notas.txt");
 
-
-
-
-
-
-
+for (int i=0; i< notas.size(); i++) {
+    calcularPromedio(notas[i],promedios);
 }
+int eleccion; 
+do { 
+cout<<"1.Consultar estudiante"<<endl; 
+cout<<"2.Ranking"<<endl; 
+cout<<"3.EStadisticas"<<endl;
+cout<<"4.Agregar estudiante"<<endl; 
+
+cin>>eleccion; 
+
+if (nombres.empty() && eleccion >= 1 && eleccion <= 3) {
+    cout << "No hay datos" << endl;
+}
+else {
+    switch (eleccion) {
+        case 1: {
+            //Aca me imaginaria yo que debe ir a la funcion de ordenar 
+            break;
+        }
+        case 2: {
+            mergeSort(notas, nombres, promedios, 0, nombres.size() - 1);
+            for (size_t i = 0; i < nombres.size(); i++) {
+                cout << i + 1 << "  " << nombres[i] << "  " << promedios[i] << endl;
+            }
+            break;
+        }
+    }
+}
+
+
+} //Esta llave es la del do 
+while (eleccion!=0);
+return 0; 
+}
+

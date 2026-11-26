@@ -182,6 +182,55 @@ int buscarEstudiante(const vector<string>& nombres, const string& buscado, int i
 float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) {
     return promedios[indiceEstudiante];
 }
+void generarReporte(const vector<string>& nombres, const vector<float>& promedios) {
+     const float notaMin =3.0f; 
+     int n=promedios.size(); 
+    
+       float mayorPromedio = mayor(promedios, 0, n-1 );
+       float menorPromedio = menor (promedios, 0, n-1);
+       float promedioDePromedios=sumatotal(promedios,0,n-1)/n;
+       
+       cout<<"Reporte del curso"<<endl; 
+
+     
+    cout << "Promedio mas alto: " << mayorPromedio << " -> ";
+    for (int i = 0; i < n; i++) {
+        if (promedios[i] == mayorPromedio) cout << nombres[i] << " ";
+    }
+    cout << endl;
+
+    cout << "Promedio mas bajo: " << menorPromedio << " -> ";
+    for (int i = 0; i < n; i++) {
+        if (promedios[i] == menorPromedio) cout << nombres[i] << " ";
+    }
+    cout << endl;
+
+    cout << "Promedio de promedios: " << promedioDePromedios << endl;
+
+    int aprobados = 0, reprobados = 0;
+    for (int i = 0; i < n; i++) {
+        if (promedios[i] >= notaMin) aprobados++;
+        else reprobados++;
+    }
+
+    cout << "\nAprobados (" << aprobados << "):" << endl;
+    for (int i = 0; i < n; i++) {
+        if (promedios[i] >= notaMin) {
+            cout << "  - " << nombres[i] << " (" << promedios[i] << ")" << endl;
+        }
+    }
+
+    cout << "\nReprobados (" << reprobados << "):" << endl;
+    for (int i = 0; i < n; i++) {
+        if (promedios[i] < notaMin) {
+            cout << "  - " << nombres[i] << " (" << promedios[i] << ")" << endl;
+            }
+        }
+    
+}
+float promedioDePromedios(const vector<float>& v) {
+    return sumatotal(v, 0, v.size() - 1) / v.size();
+}
 
  int main () { 
     #ifdef _WIN32
@@ -205,6 +254,7 @@ float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) 
         cout << "2. Ranking" << endl; 
         cout << "3. Estadisticas" << endl;
         cout << "4. Agregar estudiante" << endl; 
+        cout << "5. Generar reporte"<<endl; 
         cout << "0. Salir" << endl;
         cin >> eleccion; 
         if (cin.fail()) {
@@ -239,10 +289,10 @@ float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) 
                 case 3: {
                     float mayorPromedio = mayor(promedios, 0, promedios.size() - 1);
                     float menorPromedio = menor(promedios, 0, promedios.size() - 1);
-                    float sumaTotal = sumatotal(promedios, 0, promedios.size() - 1);
+                    float PromedioDePromedios = promedioDePromedios(promedios);
                     cout << "Mayor promedio: " << mayorPromedio << endl;
                     cout << "Menor promedio: " << menorPromedio << endl;
-                    cout << "Suma total de promedios: " << sumaTotal << endl;
+                    cout << "Promedio de promedios: " << PromedioDePromedios << endl;
                     break;
                 }
                 case 4: {
@@ -279,6 +329,10 @@ float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) 
                     cout << "Estudiante agregado exitosamente." << endl;
                     archivo.close();
                     break;
+                }
+                case 5: {
+                    generarReporte(nombres, promedios);
+                    break; 
                 }
                 case 0: {
                     cout << "Saliendo del programa..." << endl;

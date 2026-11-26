@@ -14,7 +14,21 @@
 #include <sstream>
 #include <string>
 #include <algorithm> 
+#include <chrono>
+#include <thread>
 using namespace std;
+
+void limpiarPantalla() {
+for(int i = 5; i > 0; i--) {
+cout << "\nLa pantalla se limpiara en " << i << "..." << endl;
+this_thread::sleep_for(chrono::seconds(1));
+}
+#ifdef _WIN32
+system("cls");
+#else
+system("clear");
+#endif
+}
 
 void cargarNotas(vector<vector<float>>& notas, vector<string>& nombres, const string& nombreArchivo) {
     ifstream archivo(nombreArchivo);
@@ -27,7 +41,6 @@ void cargarNotas(vector<vector<float>>& notas, vector<string>& nombres, const st
     string linea;
     while (getline(archivo, linea)) {
         // Procesar la línea para extraer nombre y nota
-        // Este es un ejemplo simplificado, ajusta según el formato de tu archivo
         istringstream iss(linea);
         if (!(iss >> nombre)) {
             continue; // Salta líneas que solo tengan espacios o caracteres \r
@@ -130,7 +143,6 @@ float sumatotal(const vector<float>& v, int inicio, int final) {
     int mitad = (inicio +final) / 2; 
     return sumatotal(v,inicio,mitad)+ sumatotal(v,mitad + 1,final);
 }
-//que sueno colega, suficiente por hoy, voy a dejar que neko se me acueste en el teclado, Suarez ven te invito a subir mira en el free fire. 
 int buscarEstudiante(const vector<string>& nombres, const string& buscado, int indice = 0) {
 
     if(indice >= static_cast<int>(nombres.size())){
@@ -142,49 +154,52 @@ int buscarEstudiante(const vector<string>& nombres, const string& buscado, int i
     return buscarEstudiante(nombres, buscado, indice +1);
 
 }
+float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) {
+    return promedios[indiceEstudiante];
+}
 
  int main () { 
 
-   vector<vector<float>> notas;
-   vector<string> nombres;
+    vector<vector<float>> notas;
+    vector<string> nombres;
     vector<float> promedios;
+    string buscado; 
 
-cargarNotas(notas,nombres, "notas.txt");
+    cargarNotas(notas,nombres, "notas.txt");
 
-for (int i=0; i< notas.size(); i++) {
-    calcularPromedio(notas[i],promedios);
-}
-int eleccion; 
-do { 
-cout<<"1.Consultar estudiante"<<endl; 
-cout<<"2.Ranking"<<endl; 
-cout<<"3.EStadisticas"<<endl;
-cout<<"4.Agregar estudiante"<<endl; 
-
-cin>>eleccion; 
-
-if (nombres.empty() && eleccion >= 1 && eleccion <= 3) {
-    cout << "No hay datos" << endl;
-}
-else {
-    switch (eleccion) {
-        case 1: {
-            //Aca me imaginaria yo que debe ir a la funcion de ordenar 
-            break;
-        }
-        case 2: {
-            mergeSort(notas, nombres, promedios, 0, nombres.size() - 1);
-            for (size_t i = 0; i < nombres.size(); i++) {
-                cout << i + 1 << "  " << nombres[i] << "  " << promedios[i] << endl;
-            }
-            break;
-        }
+    for (int i=0; i< notas.size(); i++) {
+        calcularPromedio(notas[i],promedios);
     }
+    int eleccion; 
+    do { 
+        cout<<"1.Consultar estudiante"<<endl; 
+        cout<<"2.Ranking"<<endl; 
+        cout<<"3.EStadisticas"<<endl;
+        cout<<"4.Agregar estudiante"<<endl; 
+
+        cin>>eleccion; 
+
+        if (nombres.empty() && eleccion >= 1 && eleccion <= 3) {
+            cout << "No hay datos" << endl;
+        }
+        else {
+            switch (eleccion) {
+                case 1: {
+                    cout<<"Ingrese el nombre del estudiante a buscar: ";
+                    cin>>buscado;
+                    cout << "El estudiante " << buscado << " se encuenta en la posicion " << buscarEstudiante(nombres,buscado) << " y tiene un promedio de " << consultarEstudiante(promedios, buscarEstudiante(nombres, buscado));
+                    break;
+                }
+                case 2: {
+                    mergeSort(notas, nombres, promedios, 0, nombres.size() - 1);
+                    for (size_t i = 0; i < nombres.size(); i++) {
+                        cout << i + 1 << "  " << nombres[i] << "  " << promedios[i] << endl;
+                    }
+                    break;
+                }
+        
+            }
+        }
+    } while (eleccion!=0); //Esta llave es la del do 
+    return 0; 
 }
-
-
-} //Esta llave es la del do 
-while (eleccion!=0);
-return 0; 
-}
-

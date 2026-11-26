@@ -14,8 +14,8 @@
 #include <sstream>
 #include <string>
 #include <algorithm> 
-
 using namespace std;
+
 void cargarNotas(vector<vector<float>>& notas, vector<string>& nombres, const string& nombreArchivo) {
     ifstream archivo(nombreArchivo);
     if (!archivo.is_open()) {
@@ -143,3 +143,16 @@ int buscarEstudiante(const vector<string>& nombres, const string& buscado, int i
 
 }
 
+void busqueda(); 
+ 
+int main () { 
+
+
+
+
+
+
+
+
+
+}

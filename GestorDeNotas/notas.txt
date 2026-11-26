@@ -18,3 +18,5 @@ Santiago: 2.5 3.0 2.9 3.1
 Mariana: 4.2 4.4 4.0 4.5
 Nicolás: 3.3 3.6 3.8 3.4
 Isabella: 4.7 4.5 4.9 4.6
+
+Juanito 5.0 4.5 3.7

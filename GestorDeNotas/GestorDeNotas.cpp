@@ -19,15 +19,15 @@
 using namespace std;
 
 void limpiarPantalla() {
-for(int i = 5; i > 0; i--) {
-cout << "\nLa pantalla se limpiara en " << i << "..." << endl;
-this_thread::sleep_for(chrono::seconds(1));
-}
-#ifdef _WIN32
-system("cls");
-#else
-system("clear");
-#endif
+    for(int i = 5; i > 0; i--) {
+    cout << "\n La pantalla se limpiara en " << i << "..." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+    }
+    #ifdef _WIN32
+    system("cls");
+    #else
+    system("clear");
+    #endif
 }
 
 void cargarNotas(vector<vector<float>>& notas, vector<string>& nombres, const string& nombreArchivo) {
@@ -143,8 +143,7 @@ float sumatotal(const vector<float>& v, int inicio, int final) {
     int mitad = (inicio +final) / 2; 
     return sumatotal(v,inicio,mitad)+ sumatotal(v,mitad + 1,final);
 }
-int buscarEstudiante(const vector<string>& nombres, const string& buscado, int indice = 0) {
-
+int buscarEstudiante(const vector<string>& nombres, const string& buscado, int indice) {
     if(indice >= static_cast<int>(nombres.size())){
         return -1;
     }
@@ -172,12 +171,12 @@ float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) 
     }
     int eleccion; 
     do { 
-        cout<<"1.Consultar estudiante"<<endl; 
-        cout<<"2.Ranking"<<endl; 
-        cout<<"3.EStadisticas"<<endl;
-        cout<<"4.Agregar estudiante"<<endl; 
-
-        cin>>eleccion; 
+        cout << "1. Consultar estudiante" << endl; 
+        cout << "2. Ranking" << endl; 
+        cout << "3. Estadisticas" << endl;
+        cout << "4. Agregar estudiante" << endl; 
+        cout << "0. Salir" << endl;
+        cin >> eleccion; 
 
         if (nombres.empty() && eleccion >= 1 && eleccion <= 3) {
             cout << "No hay datos" << endl;
@@ -186,9 +185,15 @@ float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) 
             switch (eleccion) {
                 case 1: {
                     cout<<"Ingrese el nombre del estudiante a buscar: ";
-                    cin>>buscado;
-                    cout << "El estudiante " << buscado << " se encuenta en la posicion " << buscarEstudiante(nombres,buscado) << " y tiene un promedio de " << consultarEstudiante(promedios, buscarEstudiante(nombres, buscado));
-                    break;
+                    cin >>  buscado;
+                    if (buscarEstudiante(nombres, buscado, 0) != -1) {
+                        cout << "El estudiante " << buscado << " se encuenta en la posición " << buscarEstudiante(nombres,buscado,0) << " y tiene un promedio de " << consultarEstudiante(promedios, buscarEstudiante(nombres, buscado,0)) << endl;
+                        break;
+                    } 
+                    else {
+                        cout << "El estudiante " << buscado << " no se encuentra en la lista." << endl;
+                        break;
+                    }
                 }
                 case 2: {
                     mergeSort(notas, nombres, promedios, 0, nombres.size() - 1);
@@ -197,9 +202,49 @@ float consultarEstudiante(const vector<float> &promedios, int indiceEstudiante) 
                     }
                     break;
                 }
-        
+                case 3: {
+                    float mayorPromedio = mayor(promedios, 0, promedios.size() - 1);
+                    float menorPromedio = menor(promedios, 0, promedios.size() - 1);
+                    float sumaTotal = sumatotal(promedios, 0, promedios.size() - 1);
+                    cout << "Mayor promedio: " << mayorPromedio << endl;
+                    cout << "Menor promedio: " << menorPromedio << endl;
+                    cout << "Suma total de promedios: " << sumaTotal << endl;
+                    break;
+                }
+                case 4: {
+                    string nombreNuevo;
+                    cout << "Ingrese el nombre del nuevo estudiante: ";
+                    cin >> nombreNuevo;
+                    vector<float> notasNuevas;
+                    float nota;
+                    cout << "Ingrese las notas del estudiante (ingrese -1 para terminar):" << endl;
+                    while (true) {
+                        cin >> nota;
+                        if (nota == -1) break;
+                        notasNuevas.push_back(nota);
+                        if (cin.fail()) {
+                            cin.clear();
+                            cin.ignore(10000, '\n');
+                        }
+                    }
+                    nombres.push_back(nombreNuevo);
+                    notas.push_back(notasNuevas);
+                    calcularPromedio(notasNuevas, promedios);
+                    cout << "Estudiante agregado exitosamente." << endl;
+                    break;
+                }
+                case 0: {
+                    cout << "Saliendo del programa..." << endl;
+                    break;
+                }
+                default: {
+                    cout << "Opción inválida. Por favor, intente de nuevo después de la espera." << endl;
+                    break;
+                }
             }
         }
-    } while (eleccion!=0); //Esta llave es la del do 
+        limpiarPantalla();
+    } 
+    while (eleccion != 0); //Esta llave es la del do 
     return 0; 
 }
